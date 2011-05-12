@@ -47,7 +47,7 @@ def ping(obj)
 	ploss = nil;
 	state = "Down"
 
-	c = "ping -n 2 -w 200 #{obj.ip}"
+	c = "ping -n 2 -w 2000 #{obj.ip}"
 	f = IO.popen(c)
 	f.readlines.each do |l|
 		if l.match(/time=/)
