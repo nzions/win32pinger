@@ -28,12 +28,12 @@ class Device
 	
 	def set_state(state)
 		if (state != @state)
+			$log << "#{Time.now.strftime("%I:%M:%S")} | #{@name.ljust(15)} #{state} was #{@state} for #{(Time.now - @timer).to_i}s"
 			@state = state
 			@timer = Time.now.to_i
 		end
-		
 	end
-
+	
 	def state
 		@state
 	end
@@ -99,6 +99,7 @@ end
 cfile = "pinger.txt"
 cfile = ARGV[0] if ARGV[0]
 devices = loadconfig(cfile)
+$log = Array.new()
 
 
 puts "Loaded #{devices.length} Devices"
@@ -111,6 +112,25 @@ while true do
 	puts
 	devices.each do |y|
 		writestats(y)
+	end
+	puts
+	puts
+	
+	
+	puts "----------------------------------------------"
+	i = 1
+	$log.reverse.each do |l|
+		break if i > 7
+		i += 1
+		
+		if l.match("Up was")
+			setcolor(2)
+		elsif l.match("Down was")
+			setcolor(4)
+	
+		end
+		puts l
+		setcolor(7)
 	end
 	puts
 	puts
